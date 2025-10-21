@@ -9,6 +9,7 @@ require("dotenv").config()
 
 const app = express()
 const PORT = process.env.PORT || 3000
+const HOST = "0.0.0.0"
 
 // Middleware
 app.use(cors())
@@ -1189,6 +1190,21 @@ app.get("/api/users/directory", authenticateToken, async (req, res) => {
   }
 })
 
+// Endpoint raíz para health check de Railway
+app.get("/", (req, res) => {
+  res.json({
+    message: "API de Donaciones funcionando correctamente",
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      test: "/api/test",
+      auth: "/api/auth/*",
+      donations: "/api/donations",
+      users: "/api/users/*",
+    },
+  })
+})
+
 app.get("/api/test", (req, res) => {
   res.json({
     message: "API funcionando correctamente",
@@ -1197,6 +1213,8 @@ app.get("/api/test", (req, res) => {
   })
 })
 
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor ejecutándose en puerto ${PORT}`)
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Servidor ejecutándose en ${HOST}:${PORT}`)
+  console.log(`📍 Entorno: ${process.env.NODE_ENV || "development"}`)
+  console.log(`🔗 Health check disponible en: http://${HOST}:${PORT}/`)
 })
