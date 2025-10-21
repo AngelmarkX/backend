@@ -28,6 +28,24 @@ const dbConfig = {
 
 const pool = mysql.createPool(dbConfig)
 
+pool
+  .getConnection()
+  .then((connection) => {
+    console.log("✅ Conexión a la base de datos exitosa")
+    console.log(`📊 Base de datos: ${dbConfig.database}`)
+    console.log(`🖥️  Host: ${dbConfig.host}`)
+    connection.release()
+  })
+  .catch((error) => {
+    console.error("❌ Error conectando a la base de datos:", error.message)
+    console.error("🔍 Configuración de BD:", {
+      host: dbConfig.host,
+      user: dbConfig.user,
+      database: dbConfig.database,
+      hasPassword: !!dbConfig.password,
+    })
+  })
+
 // Middleware de autenticación
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"]
