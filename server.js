@@ -379,35 +379,21 @@ app.post("/api/auth/reset-password", async (req, res) => {
 
 app.put("/api/users/profile", authenticateToken, async (req, res) => {
   try {
-    const { name, email, phone, address, donation_days } = req.body
+    const { phone, address, donation_days } = req.body
 
     console.log("📝 [BACKEND] Actualizando perfil usuario:", {
       userId: req.user.id,
-      name,
-      email,
       phone,
       address,
       hasDonationDays: !!donation_days,
       donation_days_data: donation_days,
     })
 
-    if (!name || !email) {
-      return res.status(400).json({ error: "Nombre y email son obligatorios" })
-    }
-
-    const [existingUsers] = await pool.execute("SELECT id FROM users WHERE email = ? AND id != ?", [email, req.user.id])
-
-    if (existingUsers && existingUsers.length > 0) {
-      return res.status(400).json({ error: "Este email ya está en uso por otro usuario" })
-    }
-
     let updateQuery = `UPDATE users SET 
-      name = ?, 
-      email = ?, 
       phone = ?, 
       address = ?`
 
-    const params = [name.trim(), email.trim(), phone ? phone.trim() : null, address ? address.trim() : null]
+    const params = [phone ? phone.trim() : null, address ? address.trim() : null]
 
     if (donation_days !== undefined) {
       updateQuery += `, donation_days = ?`
