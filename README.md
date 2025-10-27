@@ -77,15 +77,17 @@ NODE_ENV=production npm start
 
 ## Estructura del Proyecto
 
-\`\`\`
+## ⚙️ Estructura del Backend
+
+```bash
 backend/
-├── server.js           # Punto de entrada principal
-├── database.sqlite     # Base de datos SQLite (generada)
-├── .env               # Variables de entorno (no incluido en git)
-├── .env.example       # Plantilla de variables de entorno
-├── package.json       # Dependencias y scripts
-└── README.md          # Esta documentación
-\`\`\`
+├── server.js           # 🚀 Punto de entrada principal
+├── database.sqlite     # 🗃️ Base de datos SQLite (generada automáticamente)
+├── .env                # 🔒 Variables de entorno (no incluido en git)
+├── .env.example        # 🧾 Plantilla de variables de entorno
+├── package.json        # 📦 Dependencias y scripts
+└── README.md           # 📝 Esta documentación
+```
 
 ## API Endpoints
 
